@@ -1,8 +1,7 @@
-class MyDatabase
+class Person
   attr_reader "name", "phone", "address", "position", "salary", "slack_acc", "github_acc"
 
-  def initialize
-    @entries = []
+  def initialize(name, phone, address, position, salary, slack_acc, github_acc)
     @name = name
     @phone = phone
     @address = address
@@ -10,6 +9,12 @@ class MyDatabase
     @salary = salary
     @slack_acc = slack_acc
     @github_acc = github_acc
+  end
+end
+
+class MyDatabase
+  def initialize
+    @people = []
   end
 
   def ask_question
@@ -23,8 +28,6 @@ class MyDatabase
   end
 
   def add_person
-    entry = []
-
     puts "What is the person's name?"
     name = gets.chomp
 
@@ -50,7 +53,7 @@ class MyDatabase
     puts "What is their GitHub account?"
     github_acc = gets.chomp
 
-    entry = [name, phone, address, position, salary, slack_acc, github_acc]
+    person = Person.new(name, phone, address, position, salary, slack_acc, github_acc)
 
     puts "You have added #{name}."
     puts "#{name}\'s phone number is #{phone}."
@@ -59,28 +62,36 @@ class MyDatabase
     puts "Their Slack account is #{slack_acc}."
     puts "Their GitHub account is #{github_acc}.\n\n"
 
-    @entries << entry
+    @people << person
   end
 
   def search_for_person
+    found = false
     print "Please enter the person's name: "
     search_name = gets.chomp
-    if @entries.include?(search_name)
-
-    else
-      "That person does not exist."
+    @people.each do |person|
+      if person.name == search_name
+        found = true
+        puts "#{person.name}\'s phone number is #{person.phone}, and they live at #{person.address}.  #{person.name} works as a #{person.position}, and makes $#{person.salary}"
+      end
     end
-
-    puts "#{name}\'s phone number is #{phone}, and they live at #{address}.  #{name} works as a #{postion}, and makes $#{salary}"
+    if found == false
+      puts "That person does not exist."
+    end
   end
 
   def delete_person
+    found = false
     print "Please enter the name of the person you want to delete: "
     delete_name = gets.chomp
-    if @entries.include?(search_name)
-
-    else
-      "That person does not exist."
+    @people.each do |person|
+      if person.name == delete_name
+        found == true
+        person.delete
+      end
+    end
+    if found == false
+      puts "That person does not exist."
     end
   end
 
