@@ -82,17 +82,19 @@ class MyDatabase
 
   def delete_person
     found = false
+    index = 0
     print "Please enter the name of the person you want to delete: "
     delete_name = gets.chomp
     @people.each do |person|
       if person.name == delete_name
         found == true
-        person.delete
+        @people.slice!(index)
+        puts "#{delete_name} has been deleted.\n"
       end
+      index += 1
     end
-    if found == false
-      puts "That person does not exist."
-    end
+    return unless found == true
+    puts "That person does not exist.\n"
   end
 
   def start
