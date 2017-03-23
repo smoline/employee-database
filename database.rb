@@ -1,3 +1,5 @@
+require 'csv'
+
 class Person
   attr_reader "name", "phone", "address", "position", "salary", "slack_acc", "github_acc"
 
@@ -15,6 +17,19 @@ end
 class MyDatabase
   def initialize
     @people = []
+    CSV.foreach("tiy_database.csv", headers: true) do |row|
+      name = row["name"]
+      phone = row['phone']
+      address = row["address"]
+      position = row["position"]
+      salary = row["salary"]
+      slack_acc = row["slack_acc"]
+      github_acc = row["github_acc"]
+
+      person = Person.new(name, phone, address, position, salary, slack_acc, github_acc)
+
+      @people << person
+    end
   end
 
   def ask_question
@@ -72,11 +87,11 @@ class MyDatabase
     @people.each do |person|
       if person.name == search_name
         found = true
-        puts "#{person.name}\'s phone number is #{person.phone}, and they live at #{person.address}.  #{person.name} works as a #{person.position}, and makes $#{person.salary}"
+        puts "#{person.name}\'s phone number is #{person.phone}, and they live at #{person.address}.  #{person.name} works as a #{person.position}, and makes $#{person.salary}\n"
       end
     end
     if found == false
-      puts "That person does not exist."
+      puts "That person does not exist.\n"
     end
   end
 
@@ -94,7 +109,16 @@ class MyDatabase
       index += 1
     end
     if found == false
-      puts "That person does not exist."
+      puts "That person does not exist.\n"
+    end
+  end
+
+  def exit_save_database
+    CSV.open("tiy_database.csv", "w") do |csv|
+      csv << ["name", "phone", "address", "position", "salary", "slack_acc", "github_acc"]
+      @people.each do |person|
+        csv << [person.name, person.phone, person.address, person.position, person.salary, person.slack_acc, person.github_acc]
+      end
     end
   end
 
@@ -109,7 +133,8 @@ class MyDatabase
       elsif choice == "D"
         delete_person
       else
-        puts "Exiting..."
+        puts "Saving and exiting..."
+        exit_save_database
       end
     end
   end
