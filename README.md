@@ -27,4 +27,4 @@
 * The app saves the array of people to a CSV file when you choose an Exit menu option
 * It also loads the array of people from the CSV file when the application is started
 
-![Guessing Game](images/tiy-database.png)
+![TIY Database](images/tiy-database.png)
