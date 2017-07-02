@@ -1,4 +1,4 @@
-# TIY Database
+# Employee Database
 
 ## The purpose of this program was to build an app that properly looped for each selection the user makes, and for a better understanding of Classes.
 
